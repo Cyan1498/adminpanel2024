@@ -40,14 +40,21 @@ class AuthController extends Controller
             // dd('Redirigiendo a users.index');
             // return redirect()->route('users.index');
             // return view('home');
+            // notify()->preset('notify-custom', ['title' => 'Inicio de sesion con exito']);
+            // notify()->success('Welcome to Laravel Notify ⚡️');
+            // drakify('success');
+            toastr()->success('Inicio de session Exitoso!', 'Bienvendo');
+
             return redirect()->route('home'); // Asumiendo que tienes una ruta llamada 'home'
 
 
         } catch (\Exception $e) {
             //throw $th;
-            dd($e->getMessage());
+            // dd($e->getMessage());
+            // notify()->preset('notify-custom', ['title' => 'Usuario o contraseña incorrecta']);
+            toastr()->error('Oops! Something went wrong!');
             return redirect()->route('login');
-            Session::flash('error', 'Login failed. Please try again.');
+            Session::flash('error', 'Inisio de sesion fallido. Please try again.');
         }
 
     }

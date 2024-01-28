@@ -41,10 +41,7 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input 
                                         type="text" 
-                                        class="form-control 
-                                        @error('name') 
-                                        is-invalid 
-                                        @enderror" 
+                                        class="form-control @error('name') is-invalid @enderror" 
                                         name="name"
                                         value="{{ $id ? $user['name'] : '' }}"
                                     >
@@ -60,7 +57,7 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input 
                                         type="text" 
-                                        class="form-control" 
+                                        class="form-control @error('lastname') is-invalid @enderror" 
                                         name="lastname"
                                         value="{{ $id ? $user['lastname'] : '' }}"
                                         >
@@ -75,6 +72,11 @@
                                         name="age"
                                         value="{{ $id ? $user['age'] : '' }}"
                                         >
+                                        @error('age')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
@@ -82,10 +84,16 @@
                                 <div class="col-sm-12 col-md-7">
                                     <input 
                                         type="text" 
-                                        class="form-control" 
+                                        class="form-control @error('email') is-invalid @enderror" 
                                         name="email"
                                         value="{{ $id ? $user['email'] : '' }}"
-                                        >
+                                    >
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
@@ -116,6 +124,11 @@
                                         name="country"
                                         value="{{ $id ? $user['country'] : '' }}"
                                         >
+                                        @error('country')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                 </div>
                             </div>
                             {{-- <div class="form-group row mb-4">

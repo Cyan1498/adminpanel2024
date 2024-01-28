@@ -41,7 +41,7 @@
 
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                            <input type="password" name="password" id="password" class="form-control" required value="123456">
                         </div>
 
                         <button type="submit" class="btn btn-primary">ENVIAR</button>

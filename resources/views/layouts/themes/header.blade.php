@@ -11,7 +11,7 @@
             <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
             <button class="btn" type="submit"><i class="fas fa-search"></i></button>
             <div class="search-backdrop"></div>
-            <div class="search-result">
+            {{-- <div class="search-result">
                 <div class="search-header">
                     Histories
                 </div>
@@ -70,7 +70,7 @@
                         Create a new Homepage Design
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </form>
     <ul class="navbar-nav navbar-right">
@@ -85,7 +85,15 @@
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
-                <div class="d-sm-none d-lg-inline-block">Bienvenido, Usuario</div>
+                <div class="d-sm-none d-lg-inline-block">
+                    {{-- Bienvenido, Usuario --}}
+                    @auth
+                    Bienvenido, {{ auth()->user()->name }}
+                    <h2>{{ auth()->user()->name }}</h2>
+                    @else
+                    Bienvenido, Invitado
+                    @endauth
+                </div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-title">Logged in 5 min ago</div>
@@ -113,12 +121,12 @@
                 </form>
                 <div class="dropdown-divider"></div>
                 {{-- <a 
-                    href="{{ route('#') }}" 
-                    onclick="event.preventDefault(); 
-                    document.getElementById('logout-form').submit();" 
-                    class="dropdown-item has-icon text-danger">
-                    <i class="fas fa-sign-out-alt"></i> 
-                    Logout
+                    href="{{ route('#') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();"
+                class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
                 </a> --}}
 
             </div>
