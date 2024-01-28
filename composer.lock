@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b398756b17b82eaeda385ae4d2de025",
+    "content-hash": "64414c22bb15e30a6ca9e4093ff8b903",
     "packages": [
         {
             "name": "beste/clock",
@@ -943,16 +943,16 @@
         },
         {
             "name": "google/cloud-firestore",
-            "version": "v1.40.1",
+            "version": "v1.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-firestore.git",
-                "reference": "e17f1e6b497376c134feed37d1009f30a14c4bd1"
+                "reference": "364f26b2b4a0642be00cb2cfbdf720e62495b8c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-firestore/zipball/e17f1e6b497376c134feed37d1009f30a14c4bd1",
-                "reference": "e17f1e6b497376c134feed37d1009f30a14c4bd1",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-firestore/zipball/364f26b2b4a0642be00cb2cfbdf720e62495b8c4",
+                "reference": "364f26b2b4a0642be00cb2cfbdf720e62495b8c4",
                 "shasum": ""
             },
             "require": {
@@ -964,7 +964,8 @@
             },
             "require-dev": {
                 "erusev/parsedown": "^1.6",
-                "phpdocumentor/reflection": "^5.0",
+                "phpdocumentor/reflection": "^5.3.3",
+                "phpdocumentor/reflection-docblock": "^5.3",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.0",
                 "squizlabs/php_codesniffer": "2.*"
@@ -993,9 +994,9 @@
             ],
             "description": "Cloud Firestore Client for PHP",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-firestore/tree/v1.40.1"
+                "source": "https://github.com/googleapis/google-cloud-php-firestore/tree/v1.41.0"
             },
-            "time": "2024-01-19T15:59:50+00:00"
+            "time": "2024-01-26T20:27:24+00:00"
         },
         {
             "name": "google/cloud-storage",

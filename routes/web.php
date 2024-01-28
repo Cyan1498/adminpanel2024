@@ -34,11 +34,13 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::resource('users', UserController::class);
+
 // Route::get('/users', [UserController::class, 'index'])->name('users');
 
 Route::middleware('auth')->group(function ()  {
     // Route::resource('/home', HomeController::class); 
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
 });
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -48,7 +50,7 @@ Route::get('/prueba', function () {
 });
 
 Route::get('/insert', function () {
-    $customer = app('firebase.firestore')->database()->collection('Customers')->newDocument();
+    $customer = app('firebase.firestor$e')->database()->collection('Customers')->newDocument();
     $customer->set([
         'name' => 'Yan',
         'lastname' => 'Cerna',
