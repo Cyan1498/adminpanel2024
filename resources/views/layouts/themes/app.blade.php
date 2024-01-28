@@ -8,7 +8,7 @@
 
     {{-- <title>{{ config('app.name', 'Systema of Pharmacy') }}</title> --}}
     <title>Panel admin</title>
-
+    
     @include('layouts.themes.styles')
 
     @livewireStyles
@@ -41,6 +41,9 @@
     @include('layouts.themes.scripts')
 
     @livewireScripts
+    {{-- <x:notify-messages /> --}}
+    {{-- @livewire('notify-messages') --}}
+
 </body>
 
 </html>

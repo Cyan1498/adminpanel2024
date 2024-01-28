@@ -33,28 +33,28 @@ Route::group(['middleware' => 'guest'], function () {
     
 });
 
-Route::resource('users', UserController::class);
 // Route::get('/users', [UserController::class, 'index'])->name('users');
 
 Route::middleware('auth')->group(function ()  {
+    Route::resource('users', UserController::class);
     // Route::resource('/home', HomeController::class); 
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-Route::get('/prueba', function () {
-    return "¡Prueba exitosa!";
-});
+// Route::get('/prueba', function () {
+//     return "¡Prueba exitosa!";
+// });
 
-Route::get('/insert', function () {
-    $customer = app('firebase.firestore')->database()->collection('Customers')->newDocument();
-    $customer->set([
-        'name' => 'Yan',
-        'lastname' => 'Cerna',
-        'age' => 20,
-        'email' => 'yancerna1498@gmail.com',
-        'phone' => '908765432',
-        'country' => 'Peru',
-    ]);
-});
+// Route::get('/insert', function () {
+//     $customer = app('firebase.firestore')->database()->collection('Customers')->newDocument();
+//     $customer->set([
+//         'name' => 'Yan',
+//         'lastname' => 'Cerna',
+//         'age' => 20,
+//         'email' => 'yancerna1498@gmail.com',
+//         'phone' => '908765432',
+//         'country' => 'Peru',
+//     ]);
+// });

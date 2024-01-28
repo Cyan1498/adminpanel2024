@@ -171,6 +171,8 @@ return [
 
         // Otros proveedores
         Kreait\Laravel\Firebase\ServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
+
     ])->toArray(),
 
     /*
