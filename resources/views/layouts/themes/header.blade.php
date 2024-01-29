@@ -91,7 +91,7 @@
                     Bienvenido, {{ auth()->user()->name }}
                     <h2>{{ auth()->user()->name }}</h2>
                     @else
-                    Bienvenido, Invitado
+                    Bienvenido, Yan
                     @endauth
                 </div>
             </a>
