@@ -18,7 +18,8 @@ COPY . /var/www/html
 
 # Instala las dependencias de la aplicación
 WORKDIR /var/www/html
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev
+RUN composer dump-autoload
 
 # Configura las variables de entorno de Laravel
 RUN cp .env.example .env
