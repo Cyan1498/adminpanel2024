@@ -26,8 +26,8 @@
                 </ul>
             </li>
             <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
-            <li><a class="nav-link" href="{{ url('users') }}"><i class="fas fa-user"></i> <span>Customer</span></a></li>
-            <li><a class="nav-link" href="{{ url('agenda2') }}"><i class="fas fa-user"></i> <span>Agenda</span></a></li>
+            <li><a class="nav-link" href="{{ url('users') }}"><i class="fas fa-user"></i> <span>Usuarios</span></a></li>
+            <li><a class="nav-link" href="{{ url('units') }}"><i class="fas fa-user"></i> <span>Unidades</span></a></li>
 
         </ul>
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Google\Cloud\Firestore\FirestoreClient;
+use Kreait\Firebase\Factory;
+
 
 class UserController extends Controller
 {
@@ -15,10 +17,19 @@ class UserController extends Controller
         $this->firestore = app('firebase.firestore')->database();
     }
 
+    public function firebaseAuth()
+    {
+        $firebase = (new Factory)
+            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')));
+
+        return $firebase->createAuth();
+    }
+
+
     public function index()
     {
         // Obtener documentos de la colección "Customers"
-        $usersRef = $this->firestore->collection('Customers');
+        $usersRef = $this->firestore->collection('users');
         $documents = $usersRef->documents();
 
         $users = [];
@@ -50,10 +61,11 @@ class UserController extends Controller
             'age' => 'nullable|numeric',
             // 'email' => 'required|string|email|max:255|unique:customers',
             'email' => 'required|string|email|max:255',
-            'phone' => 'nullable|string|max:9',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|max:9',
             'country' => 'nullable|string|max:255',
         ];
-    
+
         $messages = [
             'name.required' => 'Ingresa el nombre',
             'name.min' => 'El nombre del cliente debe tener al menos 3 caracteres',
@@ -65,13 +77,16 @@ class UserController extends Controller
             'email.email' => 'Ingresa un correo válido',
             'email.max' => 'El correo electrónico no debe superar los 255 caracteres',
             // 'email.unique' => 'El email ya existe en el sistema',
+            'password.required' => 'Ingresa la contraseña',
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres',
             'phone.string' => 'El teléfono debe ser una cadena de texto',
             'phone.max' => 'El teléfono no debe superar los 9 caracteres',
             'country.string' => 'El país debe ser una cadena de texto',
             'country.max' => 'El país no debe superar los 255 caracteres',
         ];
+
         $existingUser = $this->firestore
-            ->collection('Customers')
+            ->collection('users')
             ->where('email', '=', $request->input('email'))
             ->documents();
 
@@ -84,21 +99,47 @@ class UserController extends Controller
 
         $request->validate($rules, $messages);
         // Agregar un nuevo documento a la colección "Customers"
-        $this->firestore->collection('Customers')->add($request->except(['_token']));
+        // $this->firestore->collection('users')->add($request->except(['_token']));
 
-        // notify()->success('Registro éxitoso ⚡️');
-        // notify()->preset('notify-custom', ['title' => 'Registro realizado con éxito']);
-        // drakify('success');
-        // notify()->success('Welcome to Laravel Notify ⚡️');
-        toastr()->success('Usuario registrado con Exito', 'Registro exitoso');
-        return redirect()->route('users.index');
+        // / Crear usuario en la autenticación
+        $auth = $this->firebaseAuth();
+        $userProperties = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            // Agrega más propiedades según tus necesidades
+        ];
+
+        try {
+            $userRecord = $auth->createUser($userProperties);
+            $uid = $userRecord->uid;
+
+            // Crear el usuario en la colección de Firestore
+            $this->firestore->collection('users')->document($uid)->set([
+                'name' => $request->input('name'),
+                'lastname' => $request->input('lastname'),
+                'age' => $request->input('age'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'country' => $request->input('country'),
+                'uid' => $uid
+                // Agrega más datos según tus necesidades
+            ]);
+
+            toastr()->success('Usuario registrado con éxito', 'Registro exitoso');
+            return redirect()->route('users.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['password' => 'Error al crear el usuario: ' . $e->getMessage()]);
         }
+
+        // toastr()->success('Usuario registrado con Exito', 'Registro exitoso');
+        // return redirect()->route('users.index');
+    }
 
     public function edit($id)
     {
         // dd($id);
         // Obtener un documento específico de la colección "Customers"
-        $userRef = $this->firestore->collection('Customers')->document($id);
+        $userRef = $this->firestore->collection('users')->document($id);
         $user = $userRef->snapshot()->data();
         $user['id'] = $id;  // Agregar el ID del documento al array
         // dd($user);
@@ -112,16 +153,52 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
         // Actualizar un documento específico en la colección "Customers"
-        $this->firestore->collection('Customers')->document($id)->set($request->except(['_token', '_method']));
+        $this->firestore->collection('users')->document($id)->set($request->except(['_token', '_method']));
 
         return redirect()->route('users.index');
     }
 
+
+
+
+
+    // public function destroy($id)
+    // {
+    //     // Eliminar un documento específico de la colección "Customers"
+    //     $this->firestore->collection('users')->document($id)->delete();
+
+    //     return back();
+    // }
+
     public function destroy($id)
     {
-        // Eliminar un documento específico de la colección "Customers"
-        $this->firestore->collection('Customers')->document($id)->delete();
+        // Obtener el documento y su contenido antes de eliminarlo
+        $userRef = $this->firestore->collection('users')->document($id);
+        $userSnapshot = $userRef->snapshot();
 
-        return back();
+        // Verificar si el usuario existe en Firestore
+        if ($userSnapshot->exists()) {
+            // Obtener el UID del usuario desde Firestore
+            $uid = $userSnapshot->get('uid');
+
+            // Verificar si se encontró el UID del usuario
+            if ($uid) {
+                try {
+                    // Eliminar el usuario de la autenticación de Firebase
+                    $this->firebaseAuth()->deleteUser($uid);
+
+                    // Eliminar el documento de la colección en Firestore
+                    $userRef->delete();
+
+                    // return back()->with('success', 'Usuario eliminado correctamente.');
+                    toastr()->success('Usuario Eliminado con éxito', 'Eliminacion exitosa');
+                    return back();
+                } catch (\Exception $e) {
+                    return back()->with('error', 'Error al eliminar el usuario: ' . $e->getMessage());
+                }
+            }
+        }
+
+        return back()->with('error', 'Usuario no encontrado en Firestore.');
     }
 }

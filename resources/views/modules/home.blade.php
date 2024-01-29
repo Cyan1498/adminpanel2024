@@ -12,7 +12,7 @@
                     <div class="card-body p-2">
                         {{-- <h1>QUE FUE</h1> --}}
                         <div class="row">
-                            <div class="col-md-6 col-xl-4">
+                            <div class="col-6 col-md-6 col-xl-4">
                                 <div class="card bg-sucess order-card">
                                     <div class="card-block">
                                         <h5>Usuarios</h5>

@@ -52,7 +52,7 @@ class AuthController extends Controller
             //throw $th;
             // dd($e->getMessage());
             // notify()->preset('notify-custom', ['title' => 'Usuario o contraseña incorrecta']);
-            toastr()->error('Oops! Something went wrong!');
+            toastr()->error('Error! Inicio de sesion fallido!');
             return redirect()->route('login');
             Session::flash('error', 'Inisio de sesion fallido. Please try again.');
         }

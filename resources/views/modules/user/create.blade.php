@@ -29,12 +29,12 @@
                     <form action="{{ route('users.update', ['user' => $id]) }}" method="POST">
                         @method('PUT')
                         @csrf
-                        <h2>Edit User</h2>
+                        <h2>Editar Usuario</h2>
                     @else
                     <div class="card-body">
                         <form action="{{ route('users.store') }}" method="POST">
                         @csrf
-                        <h4>Nuevo cliente</h4>
+                        <h4>Crear Usuario</h4>
                     @endif
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Name</label>
@@ -89,6 +89,23 @@
                                         value="{{ $id ? $user['email'] : '' }}"
                                     >
                                     @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Password</label>
+                                <div class="col-sm-12 col-md-7">
+                                    <input 
+                                        type="text" 
+                                        class="form-control @error('password') is-invalid @enderror" 
+                                        name="password"
+                                        value="{{ $id ? ($user['password'] ?? '') : '' }}"
+                                    >
+                                    @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -165,7 +182,7 @@
                             <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                 <div class="col-sm-12 col-md-7">
-                                    <button type="submit" class="btn btn-primary">Create Post</button>
+                                    <button type="submit" class="btn btn-primary">{{ $id ? 'Actualizar Usuario' : 'Crear Usuario' }}</button>
                                 </div>
                             </div>
 
