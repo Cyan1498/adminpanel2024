@@ -18,6 +18,16 @@ COPY . /var/www/html
 
 # Instala las dependencias de la aplicación
 WORKDIR /var/www/html
+
+# Instala las dependencias necesarias para ext-grpc y ext-sodium
+RUN apt-get update && \
+    apt-get install -y \
+        libc-ares-dev \
+        libsodium-dev \
+        && pecl install grpc \
+        && docker-php-ext-enable grpc \
+        && docker-php-ext-install sodium
+        
 RUN composer install --no-dev
 RUN composer dump-autoload
 
