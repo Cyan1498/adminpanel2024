@@ -1,0 +1,23 @@
+runtime: php81
+env: standard
+
+runtime_config: 
+  document_root: .
+
+skip_files:
+  .env
+
+# for detecting static files in the public folder
+handlers:
+  - url: /(.*\.(gif|png|jpg|css|js))$
+    static_files: public/\1
+    upload: public/.*\.(gif|png|jpg|css|js)$
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto
+
+env_variables:
+  APP_LOG: errorlog
+  APP_KEY: base64:nIBvJ0fIpdgSOmyglNwyzXXX16vQe6yVSicmTovWsfY=
+  STORAGE_DIR: /
