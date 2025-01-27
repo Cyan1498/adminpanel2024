@@ -12,6 +12,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+        if (config('app.env') === 'https://aplicacionenlanube.cetivirgendelapuerta.com/healthapp/public/login') {
+            $this->app['request']->server->set('HTTP', true);
+        }
     }
 
     /**
